@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ParkingTPayListMapper">
+    <insert id="addParkingPaymentList" parameterType="com.lee.community.pojo.ParkingTPayList">
+        insert into parkingtpaylist (paymentId,parkRecordId,payItemId,payTime,payable)
+        values (#{paymentId},#{parkRecordId},#{payItemId},#{payTime},#{payable});
+    </insert>
+
+    <select id="queryTPPaymentList"  resultType="map">
+        select p.* ,i.payItemType,i.payItemName,c.licenseNo,c.parkingAreaId
+        from parkingtpaylist p
+        left join payitem i on p.payItemId = i.payItemId
+        left join parkrecord c on p.parkRecordId = c.parkRecordId
+        <where>
+            <if test="licenseNo!=null and licenseNo !=''">
+                and c.licenseNo = #{licenseNo}
+            </if>
+            <if test="beginTime!=null and beginTime !=''">
+                <![CDATA[
+                and p.paytime >= DATE_FORMAT(#{beginTime},'%Y-%m-%d %H:%i:%s')
+                ]]>
+            </if>
+            <if test="overTime!=null and overTime !=''">
+                <![CDATA[
+                and p.paytime <= DATE_FORMAT(#{overTime},'%Y-%m-%d %H:%i:%s')
+                ]]>
+            </if>
+        </where>
+    </select>
+
+</mapper>

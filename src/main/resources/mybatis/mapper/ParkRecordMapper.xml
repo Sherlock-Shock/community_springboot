@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ParkRecordMapper">
+    <select id="queryParkRecord"  resultType="map">
+        SELECT p.*,pa.parkingAreaId,pa.parkingAreaNo
+        FROM parkrecord p,parkingarea pa
+        <where>
+            p.parkingAreaId = pa.parkingAreaId
+
+            <if test="licenseNo!=null and licenseNo !=''">
+                and licenseNo = #{licenseNo}
+            </if>
+            <if test="parkingAreaNo!=null and parkingAreaNo!=''">
+                and pa.parkingAreaNo = #{parkingAreaNo}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteParkRecord" parameterType="String">
+        delete from parkrecord where parkRecordId in
+        <foreach open="(" close=")" collection="array" item="parkRecordId" separator=",">
+            #{parkRecordId}
+        </foreach>
+    </delete>
+
+    <insert id="addParkRecord" parameterType="com.lee.community.pojo.ParkRecord">
+        insert into parkrecord values (#{parkRecordId},#{licenseNo},#{parkingAreaId},#{inTime},#{outTime})
+    </insert>
+
+    <update id="updateOutTimeById" parameterType="com.lee.community.pojo.ParkRecord">
+        update parkrecord set outTime = #{outTime}  where parkRecordId = #{parkRecordId}
+    </update>
+
+</mapper>

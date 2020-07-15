@@ -1,0 +1,604 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : test
+ Source Server Type    : MySQL
+ Source Server Version : 80015
+ Source Host           : localhost:3306
+ Source Schema         : community
+
+ Target Server Type    : MySQL
+ Target Server Version : 80015
+ File Encoding         : 65001
+
+ Date: 15/07/2020 14:42:31
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for bbuilding
+-- ----------------------------
+DROP TABLE IF EXISTS `bbuilding`;
+CREATE TABLE `bbuilding`  (
+  `bulidingId` int(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `bulidingNo` int(11) NULL DEFAULT NULL,
+  `bulidingName` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`bulidingId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bbuilding
+-- ----------------------------
+INSERT INTO `bbuilding` VALUES (1, 1, '1号楼');
+INSERT INTO `bbuilding` VALUES (2, 2, '2号楼');
+INSERT INTO `bbuilding` VALUES (9, 3, '3号楼');
+INSERT INTO `bbuilding` VALUES (10, 4, '伍舜德楼');
+
+-- ----------------------------
+-- Table structure for bhouse
+-- ----------------------------
+DROP TABLE IF EXISTS `bhouse`;
+CREATE TABLE `bhouse`  (
+  `houseId` int(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ownerId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `houseStatus` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `houseAreal` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `bulidingNo` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `unitNo` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `roomNo` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `rate` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`houseId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bhouse
+-- ----------------------------
+INSERT INTO `bhouse` VALUES (5, '1584342160931', '已出售', '150', '2', '7', '406', 10000);
+INSERT INTO `bhouse` VALUES (7, '1583999236046', '已出售', '50', '2', '9', '1004', 112);
+INSERT INTO `bhouse` VALUES (8, '1584000708311', '已出售', '100', '3', '4', '3005', 35);
+INSERT INTO `bhouse` VALUES (9, '1584342160931', '已出售', '120', '3', '5', '401', 4011);
+INSERT INTO `bhouse` VALUES (10, '1584000708311', '已出售', '100', '4', '1', '203', 100);
+INSERT INTO `bhouse` VALUES (11, NULL, '闲置', '65', '2', '7', '408', 10000);
+INSERT INTO `bhouse` VALUES (12, '', '闲置', '150', '4', '1', '204', 10000);
+INSERT INTO `bhouse` VALUES (13, '', '闲置', '120', '4', '1', '101', 10000);
+
+-- ----------------------------
+-- Table structure for bunit
+-- ----------------------------
+DROP TABLE IF EXISTS `bunit`;
+CREATE TABLE `bunit`  (
+  `unitId` int(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `buildingId` int(8) NULL DEFAULT NULL,
+  `unitNo` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `floor` int(10) NULL DEFAULT NULL,
+  `lift` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`unitId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of bunit
+-- ----------------------------
+INSERT INTO `bunit` VALUES (13, 2, '9', 53, '是');
+INSERT INTO `bunit` VALUES (17, 9, '5', 545, '否');
+INSERT INTO `bunit` VALUES (18, 9, '4', 40, '是');
+INSERT INTO `bunit` VALUES (19, 2, '7', 11, '是');
+INSERT INTO `bunit` VALUES (20, 10, '1', 10, '是');
+INSERT INTO `bunit` VALUES (21, 1, '1', 5, '是');
+
+-- ----------------------------
+-- Table structure for communitymsg
+-- ----------------------------
+DROP TABLE IF EXISTS `communitymsg`;
+CREATE TABLE `communitymsg`  (
+  `communityId` int(11) NOT NULL AUTO_INCREMENT,
+  `cname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `summary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `landmark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `tell` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`communityId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of communitymsg
+-- ----------------------------
+INSERT INTO `communitymsg` VALUES (1, '永恒花园小区', '    小区内部环境典雅幽静，绿化多，通过小区道路的合理组织，休闲设施的精心安排，提供自然、舒适的居住环境。周边配套齐全，设施完备，物业管理完善，保安24小时值班，住户素质高。社区主流健康向上，社区风气良好，邻里关系和谐。基础设施健全，周围商圈多，购物，就医，娱乐等方便快捷。为一个集生态环境、人文环境、信息化和管理控制自动化等优质服务为一体的高档个性化住宅小区。环境优美，丽水成天的风景给予了回归家庭、回归私域的生活体验。房屋楼层分布均匀，室内装修豪华气派，视眼非常宽广，采光较好。坐北朝南，整体体现现代简约风格，建筑设计线条明朗，色彩大气简约，采用中间高、东西低的建筑高度，使小区建筑形态层次分明，富有强烈韵律感。居于此，拥城市繁华、享离尘静谧，自由掌控生活，占核心享未来。', '广东xxx公司', '广东江门xx区xx街道xx号', '五邑大学南门附近', '5642-89654');
+
+-- ----------------------------
+-- Table structure for complaint
+-- ----------------------------
+DROP TABLE IF EXISTS `complaint`;
+CREATE TABLE `complaint`  (
+  `complaintId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `complainter` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `roomNo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `comTime` datetime(0) NULL DEFAULT NULL,
+  `comContent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `comPhone` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `receiver` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `status` int(11) NULL DEFAULT NULL,
+  `result` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `finishTime` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`complaintId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of complaint
+-- ----------------------------
+INSERT INTO `complaint` VALUES ('10001586249840312', '张大力', '12号楼2单元402室', '2020-04-07 16:57:20', '楼下好吵22\n444', '12345678998', NULL, 2, '已经打一顿了', NULL);
+INSERT INTO `complaint` VALUES ('10001586250980745', '尚老师', '44号楼5单元601室', '2020-04-07 17:16:21', '11122啊啊', '13254698756', NULL, 2, '啊什么', NULL);
+INSERT INTO `complaint` VALUES ('10001586502636693', '张东升', '', '2020-04-10 15:10:37', '楼下那堆垃圾几天没人处理了', '13563254578', NULL, 2, '', NULL);
+INSERT INTO `complaint` VALUES ('21312312321', '李丽丽2', '1号楼2单元304', '2020-04-07 15:46:03', '楼上好吵11122', '1356462651', NULL, 2, '', NULL);
+
+-- ----------------------------
+-- Table structure for foreignpeo
+-- ----------------------------
+DROP TABLE IF EXISTS `foreignpeo`;
+CREATE TABLE `foreignpeo`  (
+  `personNo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `personName` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `inTime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `outTime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `carLicenes` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `carColor` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `carType` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`personNo`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of foreignpeo
+-- ----------------------------
+INSERT INTO `foreignpeo` VALUES ('2001585311506686', '李丹丹', '1326654895', '11111', '2020-03-27 20:18:02', '2020-03-28 20:18:04', '粤JJJ456', '黄色', '奥迪');
+INSERT INTO `foreignpeo` VALUES ('2001585311647141', '萨顶顶', '12454665464', '12321321', '2020-03-27 20:20:38', '2020-03-27 20:44:58', '', '', '');
+INSERT INTO `foreignpeo` VALUES ('2001585312345130', '张三', '13055654895', '探访家人', '2020-03-18 00:00:00', '2020-03-27 20:32:10', '粤LK7845', '粉色', '宝马');
+INSERT INTO `foreignpeo` VALUES ('2001585312458823', '王五', '13245687854', '家教', '2020-03-25 00:00:00', '2020-03-27 20:46:28', '粤LKJ854', '黄色', '奔驰');
+INSERT INTO `foreignpeo` VALUES ('2001585313121011', '是的撒', '12245454642', '是是是', '2020-03-27 20:45:19', '', '', '', '');
+INSERT INTO `foreignpeo` VALUES ('2001585313170831', '是的撒11', '12245454642', '是是是', '2020-03-27 20:45:19', '2020-03-26 20:44:58', '', '', '');
+
+-- ----------------------------
+-- Table structure for notice
+-- ----------------------------
+DROP TABLE IF EXISTS `notice`;
+CREATE TABLE `notice`  (
+  `noticeId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `publisher` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `publishTime` datetime(0) NULL DEFAULT NULL,
+  `views` int(10) NULL DEFAULT 0,
+  PRIMARY KEY (`noticeId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of notice
+-- ----------------------------
+INSERT INTO `notice` VALUES ('4001585551494161', '测试标题', '<p>    今天通电...</p><p class=\"ql-align-right\">2019.10.20</p><p class=\"ql-align-right\">管理员</p>', '13066288350', '2020-03-30 14:58:14', 7);
+INSERT INTO `notice` VALUES ('4001585553553068', '12', '<p>111222</p>', '13066288350', '2020-03-30 15:32:33', 0);
+INSERT INTO `notice` VALUES ('4001585553556640', '123', '<p>111222333</p>', '13066288350', '2020-03-30 15:32:37', 1);
+INSERT INTO `notice` VALUES ('4001585553559851', '1234', '<p>111222333444</p>', '13066288350', '2020-03-30 15:32:40', 1);
+INSERT INTO `notice` VALUES ('4001585553573787', '12345', '<p>1112223334445</p>', '13066288350', '2020-03-30 15:32:54', 1);
+INSERT INTO `notice` VALUES ('4001585557513450', '开会', '<p>晚八点</p><p class=\"ql-align-right\">2020.3.32</p><p class=\"ql-align-right\">居委会</p>', '13066288350', '2020-03-30 16:38:33', 0);
+INSERT INTO `notice` VALUES ('4001585560226162', '今晚打老虎', '<p>今晚村口集合打老虎</p>', '张三', '2020-03-30 17:23:46', 19);
+INSERT INTO `notice` VALUES ('4001586777742081', '111', '<p><img src=\"data:image/png;base64,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\"></p>', '2222', '2020-04-13 19:35:42', 2);
+INSERT INTO `notice` VALUES ('4001586780861958', '测试图片', '<p><img src=\"http://localhost:9002/noticePhoto/1586780846761.jpg\"></p>', '张三', '2020-04-13 20:27:42', 25);
+
+-- ----------------------------
+-- Table structure for owner
+-- ----------------------------
+DROP TABLE IF EXISTS `owner`;
+CREATE TABLE `owner`  (
+  `ownerId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `houseId` int(8) NULL DEFAULT NULL,
+  `ownerName` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `sex` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `idCard` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `photo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `createTime` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ownerId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of owner
+-- ----------------------------
+INSERT INTO `owner` VALUES ('1583999236046', NULL, '李四', '男', '440781199802633658', '13213215165', '1583999236046.jpg', '767761777@qq.com', '广东台山', '2020-03-12 15:47:16');
+INSERT INTO `owner` VALUES ('1584000636112', NULL, '王五', '男', '123456789123456789', '12545156487', '1584000636112.jpg', '', '', '2020-03-12 16:10:36');
+INSERT INTO `owner` VALUES ('1584000708311', NULL, '李思思', '女', '123456789123456789', '13066288360', '1584000708311.jpg', '', '广东江门', '2020-03-12 16:11:48');
+INSERT INTO `owner` VALUES ('1584342160930', NULL, '李大力', '男', '123456789111111115', '13132123133', '1584342160930.jpg', '621672176@qq.com', '广东江门', '2020-03-16 15:02:41');
+INSERT INTO `owner` VALUES ('1584342160931', 1, '赵四', '男', '440781199602236541', '13066288760', '1.jpg', '752750447@qq.com', '广东江门', '2020-03-09 15:19:34');
+INSERT INTO `owner` VALUES ('1586430476177', NULL, '张十八', '男', '440781199802233012', '13066255632', '1586430476177.jpg', NULL, NULL, '2020-04-09 19:07:56');
+
+-- ----------------------------
+-- Table structure for parking
+-- ----------------------------
+DROP TABLE IF EXISTS `parking`;
+CREATE TABLE `parking`  (
+  `parkId` int(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ownerId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parkingAreaId` int(6) NULL DEFAULT NULL,
+  `parkingNo` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parkStatus` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parkingAreal` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`parkId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of parking
+-- ----------------------------
+INSERT INTO `parking` VALUES (1, '1583999236046', 1, '2', '已出售', '254');
+INSERT INTO `parking` VALUES (7, '1584000708311', 1, '4', '出租', '20');
+INSERT INTO `parking` VALUES (10, '', 1, '1', '空闲', '33');
+INSERT INTO `parking` VALUES (11, NULL, 1, '3', '空闲', '33');
+INSERT INTO `parking` VALUES (12, '1584000708311', 1, '5', '已出售', '30');
+
+-- ----------------------------
+-- Table structure for parkingarea
+-- ----------------------------
+DROP TABLE IF EXISTS `parkingarea`;
+CREATE TABLE `parkingarea`  (
+  `parkingAreaId` int(6) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parkingAreaNo` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parkingType` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parkAddress` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`parkingAreaId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of parkingarea
+-- ----------------------------
+INSERT INTO `parkingarea` VALUES (1, '1', '地下停车场', '11111');
+INSERT INTO `parkingarea` VALUES (2, '2', '地上停车场', '22222');
+INSERT INTO `parkingarea` VALUES (3, '3', '地下停车场', '333333');
+
+-- ----------------------------
+-- Table structure for parkingrent
+-- ----------------------------
+DROP TABLE IF EXISTS `parkingrent`;
+CREATE TABLE `parkingrent`  (
+  `rentId` int(11) NOT NULL AUTO_INCREMENT,
+  `parkId` int(8) NULL DEFAULT NULL,
+  `ownerId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `beginTime` datetime(0) NULL DEFAULT NULL,
+  `overTime` datetime(0) NULL DEFAULT NULL,
+  `delFlag` int(10) NULL DEFAULT 1,
+  PRIMARY KEY (`rentId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of parkingrent
+-- ----------------------------
+INSERT INTO `parkingrent` VALUES (2, 7, '1583999236046', '2020-04-11 17:48:59', '2020-10-11 17:48:59', 0);
+INSERT INTO `parkingrent` VALUES (4, 7, '1584000708311', '2020-04-11 20:01:04', '2020-09-11 20:01:04', 1);
+INSERT INTO `parkingrent` VALUES (5, 10, '1584000708311', '2020-05-30 22:03:36', '2021-05-30 22:03:36', 0);
+
+-- ----------------------------
+-- Table structure for parkingtpaylist
+-- ----------------------------
+DROP TABLE IF EXISTS `parkingtpaylist`;
+CREATE TABLE `parkingtpaylist`  (
+  `paymentId` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `parkRecordId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payItemId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payTime` datetime(0) NULL DEFAULT NULL,
+  `payable` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`paymentId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of parkingtpaylist
+-- ----------------------------
+INSERT INTO `parkingtpaylist` VALUES ('5501586159012055', '1101586155151875', '3001586155345578', NULL, '2020-04-06 15:43:32', '10');
+INSERT INTO `parkingtpaylist` VALUES ('5501586159742135', '111111', '3001586155345578', NULL, '2020-04-06 15:55:42', '1575');
+INSERT INTO `parkingtpaylist` VALUES ('5501586261738876', '1101585204486930', '3001586155345578', NULL, '2020-04-07 20:15:39', '100');
+INSERT INTO `parkingtpaylist` VALUES ('5501586586235328', '1101585204486930', '3001586155345578', NULL, '2020-04-11 14:23:55', '25');
+INSERT INTO `parkingtpaylist` VALUES ('5501590848818013', '1101590848712176', '3001586155345578', NULL, '2020-05-30 22:26:58', '125');
+
+-- ----------------------------
+-- Table structure for parkrecord
+-- ----------------------------
+DROP TABLE IF EXISTS `parkrecord`;
+CREATE TABLE `parkrecord`  (
+  `parkRecordId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `licenseNo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parkingAreaId` int(6) NULL DEFAULT NULL,
+  `inTime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `outTime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`parkRecordId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of parkrecord
+-- ----------------------------
+INSERT INTO `parkrecord` VALUES ('1101585040566637', '22222', 2, '2020-03-24 17:02:38', '2020-03-24 17:02:39');
+INSERT INTO `parkrecord` VALUES ('1101585201910773', '粤kl4563', 1, '2020-03-26 13:51:24', '2020-03-27 00:00:00');
+INSERT INTO `parkrecord` VALUES ('1101585203497115', '221321', 2, '2020-03-26 14:17:19', '2020-03-27 01:01:01');
+INSERT INTO `parkrecord` VALUES ('1101585204486930', '粤KJ4512', 3, '2020-03-26 14:34:34', '');
+INSERT INTO `parkrecord` VALUES ('1101586155151875', '粤LKJ542', 2, '2020-04-06 14:39:10', '');
+INSERT INTO `parkrecord` VALUES ('1101590848712176', '粤JK4587', 1, '2020-05-29 22:24:56', '2020-05-30 22:26:16');
+INSERT INTO `parkrecord` VALUES ('111111', '粤JVM456', 1, '2020-03-24 13:41:59', '2020-03-27 13:42:04');
+INSERT INTO `parkrecord` VALUES ('2222', '粤JVM457', 2, '2020-03-04 13:42:42', '2020-03-28 13:44:03');
+
+-- ----------------------------
+-- Table structure for payitem
+-- ----------------------------
+DROP TABLE IF EXISTS `payitem`;
+CREATE TABLE `payitem`  (
+  `payItemId` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `payItemType` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payItemName` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payItemPeriod` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `beginTime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `overTime` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `charStandard` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `charOnce` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`payItemId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of payitem
+-- ----------------------------
+INSERT INTO `payitem` VALUES ('3001585385554297', '地上出租车位费', '出租车位', '一次性收费', '2020-03-01 00:00:00', '2020-04-01 00:00:00', '30', '10');
+INSERT INTO `payitem` VALUES ('3001585385738120', '物业费', '垃圾清理', '一次性收费', '2020-03-28 16:55:28', '2020-04-08 00:00:00', '', '50');
+INSERT INTO `payitem` VALUES ('3001586076042644', '地上出售车位费', '地上车位出售费', '一次性收费', '', '', '', '100000');
+INSERT INTO `payitem` VALUES ('3001586155345578', '临时停车费', '临时停车', '一次性收费', '2020-04-06 14:42:10', '', '5', '');
+INSERT INTO `payitem` VALUES ('3001586424989242', '地上出租车位费', '车位出租', '周期性收费', '2020-03-04 00:00:00', '2020-04-04 00:00:00', '30', '');
+INSERT INTO `payitem` VALUES ('3001586843481084', '物业费', '四月份物业费', '周期性收费', '2020-04-14 13:50:46', '2020-04-17 13:50:48', '50', '10');
+INSERT INTO `payitem` VALUES ('3001591186912332', '物业费', '六月份物业费', '周期性收费', '2020-06-01 00:00:00', '2020-06-30 00:00:00', '5', '');
+
+-- ----------------------------
+-- Table structure for paymentlist
+-- ----------------------------
+DROP TABLE IF EXISTS `paymentlist`;
+CREATE TABLE `paymentlist`  (
+  `paymentId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `payPerId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payItemId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `receiver` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `payTime` datetime(0) NULL DEFAULT NULL,
+  `payable` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `factPay` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `houseId` int(8) NULL DEFAULT NULL,
+  `parkId` int(8) NULL DEFAULT NULL,
+  PRIMARY KEY (`paymentId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of paymentlist
+-- ----------------------------
+INSERT INTO `paymentlist` VALUES ('5001585741041593', '1584342160931', '3001585385738120', NULL, '2020-04-02 17:16:09', '50', '1', NULL, NULL);
+INSERT INTO `paymentlist` VALUES ('5001586067679056', '1584342160931', '3001585385738120', NULL, NULL, '50', NULL, NULL, NULL);
+INSERT INTO `paymentlist` VALUES ('5001586165630337', '1584342160931', '3001586076042644', NULL, '2020-04-06 18:05:15', '100000', '100000', NULL, NULL);
+INSERT INTO `paymentlist` VALUES ('5001586322343863', '1584342160931', '3001585385738120', NULL, '2020-04-08 14:16:28', '50', '50', NULL, NULL);
+INSERT INTO `paymentlist` VALUES ('5001586858407922', '1584000708311', '3001585385738120', NULL, '2020-04-27 16:28:05', '50', '50', NULL, NULL);
+INSERT INTO `paymentlist` VALUES ('5001586858962163', '1584000708311', '3001585385738120', NULL, '2020-04-15 15:13:38', '50', '50', 8, 0);
+INSERT INTO `paymentlist` VALUES ('5001586859104454', '1584000708311', '3001585385554297', NULL, NULL, '610', NULL, 0, 7);
+INSERT INTO `paymentlist` VALUES ('5001586866057005', '1583999236046', '3001585385738120', NULL, '2020-04-14 20:07:54', '50', '50', 7, 0);
+INSERT INTO `paymentlist` VALUES ('5001586939091063', '1584000708311', '3001586076042644', NULL, '2020-04-15 16:25:40', '100000', '100000', 0, 12);
+INSERT INTO `paymentlist` VALUES ('5001587024556495', '1584342160931', '3001586843481084', NULL, NULL, '50010', NULL, 5, 0);
+INSERT INTO `paymentlist` VALUES ('5001587024556602', '1583999236046', '3001586843481084', NULL, NULL, '2510', NULL, 7, 0);
+INSERT INTO `paymentlist` VALUES ('5001587024556680', '1584000708311', '3001586843481084', NULL, NULL, '15260', NULL, 8, 0);
+INSERT INTO `paymentlist` VALUES ('5001587024556758', '1584342160931', '3001586843481084', NULL, NULL, '20060', NULL, 9, 0);
+INSERT INTO `paymentlist` VALUES ('5001590848075424', '1584000708311', '3001585385738120', NULL, NULL, '50', NULL, 8, 0);
+INSERT INTO `paymentlist` VALUES ('5001591360222390', '1584342160931', '3001591186912332', NULL, NULL, '750', NULL, 5, 0);
+INSERT INTO `paymentlist` VALUES ('5001591360222502', '1583999236046', '3001591186912332', NULL, NULL, '250', NULL, 7, 0);
+INSERT INTO `paymentlist` VALUES ('5001591360222569', '1584000708311', '3001591186912332', NULL, NULL, '500', NULL, 8, 0);
+INSERT INTO `paymentlist` VALUES ('5001591360222668', '1584342160931', '3001591186912332', NULL, NULL, '600', NULL, 9, 0);
+INSERT INTO `paymentlist` VALUES ('5001591360222769', '1584000708311', '3001591186912332', NULL, '2020-06-05 20:31:18', '500', '500', 10, 0);
+
+-- ----------------------------
+-- Table structure for postcomment
+-- ----------------------------
+DROP TABLE IF EXISTS `postcomment`;
+CREATE TABLE `postcomment`  (
+  `commentId` int(10) NOT NULL AUTO_INCREMENT,
+  `postId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `userId` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `comTime` datetime(0) NULL DEFAULT NULL,
+  `beCommentId` int(10) NULL DEFAULT NULL,
+  `starNum` int(11) NULL DEFAULT 0,
+  PRIMARY KEY (`commentId`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2268 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of postcomment
+-- ----------------------------
+INSERT INTO `postcomment` VALUES (2223, '7001586686035476', '13066288360', '测试评论', '2020-04-13 11:07:33', 0, 3);
+INSERT INTO `postcomment` VALUES (2224, '7001586686035476', '13066288360', '测试评论', '2020-04-12 20:23:50', 0, 1);
+INSERT INTO `postcomment` VALUES (2225, '7001586686035476', '13066288360', '测试评论', '2020-04-12 20:24:24', 0, 0);
+INSERT INTO `postcomment` VALUES (2226, '7001586686035476', '13066288360', '1111', '2020-04-12 20:24:42', 2229, 7);
+INSERT INTO `postcomment` VALUES (2227, '7001586686035476', '13066288360', '测测', '2020-04-12 20:26:02', 2229, 0);
+INSERT INTO `postcomment` VALUES (2228, '7001586686035476', '13066288360', '修改测试', '2020-04-12 20:32:47', 2229, 6);
+INSERT INTO `postcomment` VALUES (2229, '7001586686035476', '13066255632', '我是张十八', '2020-04-12 20:37:17', 0, 10);
+INSERT INTO `postcomment` VALUES (2230, '7001586686035476', '13066255632', '55555', '2020-04-13 09:34:53', 2229, 0);
+INSERT INTO `postcomment` VALUES (2231, '7001586686035476', '13066255632', '666', '2020-04-13 09:36:18', 0, 0);
+INSERT INTO `postcomment` VALUES (2232, '7001586686035476', '13066255632', 'test', '2020-04-13 09:59:01', 2223, 0);
+INSERT INTO `postcomment` VALUES (2233, '7001586674198805', '13066288390', '111', '2020-04-13 09:59:49', 0, 2);
+INSERT INTO `postcomment` VALUES (2234, '7001586686035476', '13066288390', '888', '2020-04-13 10:00:16', 0, 1);
+INSERT INTO `postcomment` VALUES (2235, '7001586686035476', '13066288390', '222', '2020-04-13 10:11:32', 2225, 0);
+INSERT INTO `postcomment` VALUES (2236, '7001586686035476', '13066288360', '555', '2020-04-13 15:47:25', 0, 0);
+INSERT INTO `postcomment` VALUES (2237, '7001586686035476', '13066288360', '测试回复', '2020-04-13 16:10:24', 2224, 0);
+INSERT INTO `postcomment` VALUES (2238, '7001586686035476', '13066288360', '再试一次', '2020-04-13 16:11:02', 2224, 0);
+INSERT INTO `postcomment` VALUES (2239, '7001586686035476', '13132123133', 'test', '2020-04-13 16:12:04', 2224, 0);
+INSERT INTO `postcomment` VALUES (2240, '7001586686035476', '13132123133', '333', '2020-04-13 16:13:25', 2225, 0);
+INSERT INTO `postcomment` VALUES (2241, '7001586686035476', '13132123133', '测试回复', '2020-04-13 16:16:09', 2225, 0);
+INSERT INTO `postcomment` VALUES (2242, '7001586686035476', '13132123133', '最新测试', '2020-04-13 16:18:36', 0, 0);
+INSERT INTO `postcomment` VALUES (2243, '7001586686035476', '13132123133', '666', '2020-04-13 16:20:25', 0, 0);
+INSERT INTO `postcomment` VALUES (2244, '7001586686035476', '13132123133', '最新新测试', '2020-04-13 16:26:06', 0, 1);
+INSERT INTO `postcomment` VALUES (2245, '7001586686035476', '13132123133', '最新新测试回复', '2020-04-13 16:26:27', 2244, 0);
+INSERT INTO `postcomment` VALUES (2246, '7001586672891140', '13132123133', '111', '2020-04-13 16:26:56', 0, 0);
+INSERT INTO `postcomment` VALUES (2247, '7001586672891140', '13132123133', '222', '2020-04-13 16:27:03', 2246, 0);
+INSERT INTO `postcomment` VALUES (2248, '7001586672891140', '13066288350', '我也来试试', '2020-04-13 16:27:27', 2246, 0);
+INSERT INTO `postcomment` VALUES (2249, '7001586766716299', '13066288350', '11', '2020-04-13 16:32:11', 0, 0);
+INSERT INTO `postcomment` VALUES (2250, '7001586777649943', '13066288350', '测试', '2020-04-13 19:34:39', 0, 5);
+INSERT INTO `postcomment` VALUES (2251, '7001586777649943', '13066288350', '测试回复', '2020-04-13 19:34:48', 2250, 0);
+INSERT INTO `postcomment` VALUES (2252, '7001586772075977', '13066288350', '发图失败', '2020-04-14 12:04:02', 0, 0);
+INSERT INTO `postcomment` VALUES (2253, '7001586772075977', '13066288350', 'fail', '2020-04-14 12:04:09', 2252, 0);
+INSERT INTO `postcomment` VALUES (2254, '7001586686035476', '13066288350', '111', '2020-04-14 13:52:29', 2236, 0);
+INSERT INTO `postcomment` VALUES (2255, '7001586777649943', '13066288360', '你这图不太行啊', '2020-04-15 15:15:37', 2250, 3);
+INSERT INTO `postcomment` VALUES (2256, '7001586686035476', '13066288360', '嗯嗯嗯', '2020-04-15 15:50:32', 2234, 0);
+INSERT INTO `postcomment` VALUES (2257, '7001586686035476', '13066288350', '111', '2020-04-15 16:07:15', 2229, 0);
+INSERT INTO `postcomment` VALUES (2258, '7001587266735709', '13066288350', '11', '2020-04-19 11:25:43', 0, 0);
+INSERT INTO `postcomment` VALUES (2259, '7001587266735709', '13066288350', '22', '2020-04-19 11:25:50', 2258, 0);
+INSERT INTO `postcomment` VALUES (2260, '7001588384572866', '13066288350', '111', '2020-05-19 23:01:15', 0, 1);
+INSERT INTO `postcomment` VALUES (2261, '7001588384572866', '13066288350', '222', '2020-05-19 23:01:23', 2260, 0);
+INSERT INTO `postcomment` VALUES (2262, '7001588384572866', '13066288350', '222', '2020-06-03 20:22:48', 0, 0);
+INSERT INTO `postcomment` VALUES (2263, '7001588384572866', '13066288350', '333', '2020-06-03 20:22:51', 2262, 0);
+INSERT INTO `postcomment` VALUES (2264, '7001588384572866', '13066288360', '555', '2020-06-03 20:23:47', 2262, 0);
+INSERT INTO `postcomment` VALUES (2265, '7001588384572866', '13066288350', '555', '2020-06-03 20:36:39', 2262, 0);
+INSERT INTO `postcomment` VALUES (2266, '7001588384572866', '13066288360', '33', '2020-06-03 20:37:28', 0, 1);
+INSERT INTO `postcomment` VALUES (2267, '7001588384572866', '13066288350', '33', '2020-06-05 20:30:41', 0, 1);
+INSERT INTO `postcomment` VALUES (2268, '7001588384572866', '13066288360', '222', '2020-06-05 20:31:45', 2267, 0);
+
+-- ----------------------------
+-- Table structure for posting
+-- ----------------------------
+DROP TABLE IF EXISTS `posting`;
+CREATE TABLE `posting`  (
+  `postId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userId` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `postTime` datetime(0) NULL DEFAULT NULL,
+  `views` int(10) NULL DEFAULT 0,
+  PRIMARY KEY (`postId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of posting
+-- ----------------------------
+INSERT INTO `posting` VALUES ('7001586672891140', '13066288360', '测试', '<h2><a id=\"_0\"></a>二级标题</h2>\n<p>2…2</p>\n', '2020-04-12 14:28:11', 3);
+INSERT INTO `posting` VALUES ('7001586674035367', '13066288360', '第二篇', '<h3><a id=\"22222_0\"></a>22222</h3>\n<p>4</p>\n', '2020-04-12 14:47:15', 4);
+INSERT INTO `posting` VALUES ('7001586674198805', '13066288360', '第三篇', '<h3><a id=\"22222_0\"></a>22222</h3>\n<p>433</p>\n', '2020-04-12 14:49:59', 11);
+INSERT INTO `posting` VALUES ('7001586686035476', '13066288360', 'test', '<p>1<br />\n1<br />\n1<br /><!--more-->\n\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />\n1<br />1<br />\n1<br />\n1<br />\n1<br />\n1</p>\n', '2020-04-12 18:07:15', 129);
+INSERT INTO `posting` VALUES ('7001586766716299', '13066288350', '管理员发帖', '<h3><a id=\"_0\"></a>各单位注意</h3>\n', '2020-04-13 16:31:56', 14);
+INSERT INTO `posting` VALUES ('7001586767738098', '13066288350', '111', '<p>1111<br />\n222</p>\n<!--more-->\n<p>333</p>\n', '2020-04-13 16:48:58', 1);
+INSERT INTO `posting` VALUES ('7001586768777883', '13066288350', '11', '<p>1<br />\n2</p>\n<!--more-->\n<p>3<br />\n4</p>\n', '2020-04-13 17:06:18', 7);
+INSERT INTO `posting` VALUES ('7001588384572866', '13066288350', '小区内多处出现动物粪便', '<p>近期，小区内多处出现动物粪便，请各位业主做到文明养宠，宠物的粪便自行处理，有意见或者建议可在帖子下方评论。大家一起建设文明小区！<br />\n<img src=\"http://localhost:9002/postPicture/1588384569869.jpg\" alt=\"263281106 2.jpg\" /></p>\n', '2020-05-02 09:56:13', 11);
+
+-- ----------------------------
+-- Table structure for repair
+-- ----------------------------
+DROP TABLE IF EXISTS `repair`;
+CREATE TABLE `repair`  (
+  `repairNo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ownerId` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `roomNo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `rtime` datetime(0) NULL DEFAULT NULL,
+  `appTime` datetime(0) NULL DEFAULT NULL,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`repairNo`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of repair
+-- ----------------------------
+INSERT INTO `repair` VALUES ('11001586349909456', '1584000708311', '11111', '2020-04-08 20:45:09', '2020-04-08 20:45:01', '5555566', '13456223434', '2');
+INSERT INTO `repair` VALUES ('11001586421227579', '1584342160931', '2号楼3单元406室', '2020-04-09 16:33:48', '2020-04-12 00:00:00', '水管爆了', '13256325478', '0');
+INSERT INTO `repair` VALUES ('11001586421260224', '1584000708311', '2号楼3单元407室', '2020-04-09 16:34:20', '2020-04-09 16:34:10', '水管第二次爆了', '13256325475', '1');
+INSERT INTO `repair` VALUES ('11001586496414402', '1586430476177', '3号楼4单元501室', '2020-04-10 13:26:54', '2020-04-15 13:24:44', '漏水', '13265452321', '0');
+INSERT INTO `repair` VALUES ('11001586501167267', '1584000708311', '2号楼2单元201室', '2020-04-10 14:46:07', '2020-04-14 00:00:00', '有马蜂窝', '12536548965', '2');
+INSERT INTO `repair` VALUES ('11001586605732568', '1583999236046', '1号楼2单元502室', '2020-04-11 19:48:53', '2020-04-12 00:00:00', '啦啦啦', '13652365478', '0');
+INSERT INTO `repair` VALUES ('11001586840621612', '1584000708311', '1号楼5单元601', '2020-04-14 13:03:42', '2020-04-14 13:03:18', '墙掉了', '13652456987', '0');
+
+-- ----------------------------
+-- Table structure for repaired
+-- ----------------------------
+DROP TABLE IF EXISTS `repaired`;
+CREATE TABLE `repaired`  (
+  `repairedNo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `repairNo` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `workerName` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `workerPhone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `finishTime` datetime(0) NULL DEFAULT NULL,
+  `mark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`repairedNo`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of repaired
+-- ----------------------------
+INSERT INTO `repaired` VALUES ('11001586410962693', '11001586349909456', '司徒亮', '13256548954', '2020-04-09 15:40:21', '好了');
+INSERT INTO `repaired` VALUES ('11001586418273526', '4546546546', '吴珊珊', '13565874596', '2020-04-09 16:33:00', '');
+INSERT INTO `repaired` VALUES ('11001586421388054', '11001586421260224', '张琳琳', '15269874563', NULL, NULL);
+INSERT INTO `repaired` VALUES ('11001586501287733', '11001586501167267', '张三四', '13654236985', '2020-04-11 14:21:54', '');
+
+-- ----------------------------
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES (1, 'ADMIN');
+INSERT INTO `role` VALUES (2, 'NORMAL');
+INSERT INTO `role` VALUES (3, 'WORKER_SERVICE');
+INSERT INTO `role` VALUES (4, 'WORKER_PAY');
+INSERT INTO `role` VALUES (5, 'WORKER_PARK');
+
+-- ----------------------------
+-- Table structure for userrole
+-- ----------------------------
+DROP TABLE IF EXISTS `userrole`;
+CREATE TABLE `userrole`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `roleId` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of userrole
+-- ----------------------------
+INSERT INTO `userrole` VALUES (1, '13066288350', 1);
+INSERT INTO `userrole` VALUES (2, '13066288350', 2);
+INSERT INTO `userrole` VALUES (3, '13066255632', 2);
+INSERT INTO `userrole` VALUES (4, '13066288360', 2);
+INSERT INTO `userrole` VALUES (5, '13066288390', 2);
+INSERT INTO `userrole` VALUES (6, '13066288760', 2);
+INSERT INTO `userrole` VALUES (7, '13132123133', 2);
+INSERT INTO `userrole` VALUES (8, '13213215165', 2);
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `userId` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `userName` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `userRole` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `photo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `createTime` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`userId`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES ('12456345621', '测试日期111', '$2a$10$hK5kKuqytGkvesZhc6CtDeC4UQSNRjL71HJsKGwMHi/L0i7.bO20e', 'NORMAL', NULL, '2020-04-14 14:50:12');
+INSERT INTO `users` VALUES ('13066255632', '张十八', '$2a$10$NaRb.nNhHMkw5ZAgy2SEhOSMi7x2HLEoRh8kjTBwoToA7UwZLjUke', 'NORMAL', '13066255632.jpg', '2020-04-09 19:07:56');
+INSERT INTO `users` VALUES ('13066288350', '张三', '$2a$10$rOD5uS8JKqZ2wfYj.AZoVuQWeL4FYJ57y45Ednqgn95sYQlsOOL3y', 'ADMIN', '13066288350.jpg', '2020-03-26 17:27:25');
+INSERT INTO `users` VALUES ('13066288360', '李思思', '$2a$10$hLQx/pzXU3Rdb0j22u4be.7/07kvOcw857VHmgwtp3NdcC4nhCjo2', 'NORMAL', '13066288360.jpg', '2020-04-09 19:11:34');
+INSERT INTO `users` VALUES ('13066288390', '王五', '$2a$10$7ONtgoW4r8TQt5E1jyPaW.5PNjsget0v4orqKeIBtxABR/YTy/ZO.', 'NORMAL', '13066288390.jpg', NULL);
+INSERT INTO `users` VALUES ('13066288760', '赵四', '$2a$10$24o1ovO232/5GPJPG76hc.Ww042GhAgsDZuUzaas6uIoSRxbpkC/y', 'NORMAL', NULL, '2020-04-09 19:13:02');
+INSERT INTO `users` VALUES ('13132123133', '李大力', '$2a$10$5s9wmV8m6l9pGxhVBmpVTOms54u2.w7SZC6W3rQLzIiRFY3SA8MEK', 'NORMAL', '13132123133.jpg', '2020-04-09 19:12:30');
+INSERT INTO `users` VALUES ('13213215165', '李四', '$2a$10$lUvrSWexduZgOE7zZop6F.xRuQGxpXPyfN.Z/7EmQzyByc7HPIm6K', 'NORMAL', '13213215165.jpg', '2020-04-09 19:12:10');
+
+SET FOREIGN_KEY_CHECKS = 1;

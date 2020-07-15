@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.RepairedMapper">
+    <insert id="addRepaired" parameterType="com.lee.community.pojo.Repaired">
+        insert into repaired (repairedNo,repairNo,workerName,workerPhone)
+        values (#{repairedNo},#{repairNo},#{workerName},#{workerPhone})
+    </insert>
+
+    <select id="queryRepairedOne" parameterType="String" resultType="com.lee.community.pojo.Repaired">
+        select * from repaired where repairNo = #{repairNo} limit 1
+    </select>
+    
+    <update id="updateRepairFinish" parameterType="com.lee.community.pojo.Repaired">
+        update repaired
+        set finishTime = #{finishTime},
+        mark = #{mark}
+        where repairNo = #{repairNo}
+    </update>
+
+</mapper>

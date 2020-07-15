@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ForeignPeoMapper">
+
+
+    <select id="queryForeignPeoByName" resultType="com.lee.community.pojo.ForeignPeo" parameterType="String"  >
+        select * from foreignpeo
+        <where>
+            <if test="personName!=null and personName !=''">
+                personName = #{personName}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteForeignByNo" parameterType="String">
+        delete from foreignpeo where personNo in
+        <foreach open="(" close=")" collection="array" item="personNo" separator=",">
+            #{personNo}
+        </foreach>
+    </delete>
+
+    <insert id="addForeignPeo" parameterType="com.lee.community.pojo.ForeignPeo">
+        insert into foreignpeo
+        values(#{personNo},#{personName},#{phone},#{reason},#{inTime},#{outTime},#{carLicenes},#{carColor},#{carType})
+    </insert>
+
+    <update id="updateOutTimeByNo" parameterType="com.lee.community.pojo.ForeignPeo">
+        update foreignpeo set outTime = #{outTime}  where personNo = #{personNo}
+    </update>
+
+
+</mapper>

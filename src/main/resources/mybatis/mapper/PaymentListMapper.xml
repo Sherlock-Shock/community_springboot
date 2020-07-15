@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.PaymentListMapper">
+    <insert id="addPaymentList" parameterType="com.lee.community.pojo.PaymentList">
+        insert into paymentlist (paymentId,payPerId,payItemId,payable,houseId,parkId)
+        values (#{paymentId},#{payPerId},#{payItemId},#{payable},#{houseId},#{parkId});
+    </insert>
+
+    <select id="queryPaymentList"  resultType="map">
+        select p.* ,i.payItemType,i.payItemName,i.beginTime,i.overTime,
+               o.ownerName,o.idCard,
+               h.bulidingNo,h.unitNo,h.roomNo
+        from paymentlist p
+        left join payitem i on p.payItemId = i.payItemId
+        left join owner o on p.payPerId = o.ownerId
+        left join bhouse h on p.houseId = h.houseId
+        <where>
+            <if test="payItemName!=null and payItemName !=''">
+                and i.payItemName like concat('%',#{payItemName},'%')
+            </if>
+            <if test="paymentId!=null and paymentId !=''">
+                and p.paymentId = #{paymentId}
+            </if>
+            <if test="isPay!=null and isPay !=''">
+                <if test="isPay==0">
+
+                </if>
+                <if test="isPay==1">
+                    and factPay is not null
+                </if>
+                <if test="isPay==2">
+                    and factPay is null
+                </if>
+            </if>
+            <if test="beginTime!=null and beginTime !=''">
+                <![CDATA[
+                and p.paytime >= DATE_FORMAT(#{beginTime},'%Y-%m-%d %H:%i:%s')
+                ]]>
+            </if>
+            <if test="overTime!=null and overTime !=''">
+                <![CDATA[
+                and p.paytime <= DATE_FORMAT(#{overTime},'%Y-%m-%d %H:%i:%s')
+                ]]>
+            </if>
+        </where>
+        order by DATE_FORMAT(i.beginTime,'%Y-%m-%d %H:%i:%s') asc
+    </select>
+
+    <select id="queryOwnerPaymentList" resultType="map">
+        select p.*,i.payItemName,i.beginTime,i.overTime,o.ownerName,o.idCard,
+               h.bulidingNo,h.unitNo,h.roomNo
+        from paymentlist p
+        left join payitem i on p.payItemId = i.payItemId
+        left join owner o on p.payPerId = o.ownerId
+        left join bhouse h on p.houseId = h.houseId
+        <where>
+            o.phone = #{userId}
+            <if test="payItemName!=null and payItemName !=''">
+                and i.payItemName like concat('%',#{payItemName},'%')
+            </if>
+            <if test="isPay!=null and isPay !=''">
+                <if test="isPay==0">
+
+                </if>
+                <if test="isPay==1">
+                    and factPay is not null
+                </if>
+                <if test="isPay==2">
+                    and factPay is null
+                </if>
+            </if>
+            <if test="beginTime!=null and beginTime !=''">
+                <![CDATA[
+                and p.paytime >= DATE_FORMAT(#{beginTime},'%Y-%m-%d %H:%i:%s')
+                ]]>
+            </if>
+            <if test="overTime!=null and overTime !=''">
+                <![CDATA[
+                and p.paytime <= DATE_FORMAT(#{overTime},'%Y-%m-%d %H:%i:%s')
+                ]]>
+            </if>
+        </where>
+        order by p.paymentId desc
+
+    </select>
+
+    <update id="updatePaymentListToPay" parameterType="com.lee.community.pojo.PaymentList">
+        update paymentlist
+        set payTime = #{payTime},factPay = #{factPay}
+        where paymentId = #{paymentId}
+    </update>
+</mapper>

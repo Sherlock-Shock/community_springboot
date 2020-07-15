@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.PostingMapper">
+        <insert id="addPosting" parameterType="com.lee.community.pojo.Posting">
+            insert into posting (postId,userId,title,content,postTime)
+            values (#{postId},#{userId},#{title},#{content},#{postTime})
+        </insert>
+
+        <select id="queryPostByTitle" parameterType="String" resultType="map">
+            select p.*,u.userName,u.photo,u.userRole,
+              (select count(1) from postcomment c where p.postId = c.postId) as comNum
+            from posting p
+            left join users u on p.userId = u.userId
+            <where>
+                <if test="title!=null and title !=''">
+                    p.title like concat('%',#{title},'%')
+                </if>
+            </where>
+            order by postTime desc
+        </select>
+
+        <select id="queryPostDetail" parameterType="String" resultType="map">
+             select p.*,u.userName,u.photo,u.userRole
+             from posting p
+             left join users u on p.userId = u.userId
+             where p.postId = #{postId}
+        </select>
+
+        <update id="updateViews" parameterType="String">
+            update posting set views = views+1 where postId = #{postId}
+        </update>
+
+        <delete id="deletePostById" parameterType="String">
+            delete from posting where postId = #{postId}
+        </delete>
+
+</mapper>

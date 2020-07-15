@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ComplaintMapper">
+
+
+    <select id="queryComplaint" resultType="com.lee.community.pojo.Complaint" parameterType="com.lee.community.pojo.Complaint"  >
+        select * from complaint
+        <where>
+            <if test="complainter!=null and complainter !=''">
+                and complainter = #{complainter}
+            </if>
+            <if test="comPhone!=null and comPhone !=''">
+                and comPhone = #{comPhone}
+            </if>
+            <if test="status!=null and status != 3 ">
+                and status = #{status}
+            </if>
+        </where>
+        order by comTime desc
+    </select>
+
+    <delete id="deleteComplaint" parameterType="String">
+        delete from complaint where complaintId in
+        <foreach open="(" close=")" collection="array" item="complaintId" separator=",">
+            #{complaintId}
+        </foreach>
+    </delete>
+
+
+    <insert id="addComplaint" parameterType="com.lee.community.pojo.Complaint" >
+       insert into complaint(complaintId,complainter,comTime,comContent,comPhone,roomNo,status)
+       values(#{complaintId},#{complainter},#{comTime},#{comContent},#{comPhone},#{roomNo},#{status})
+    </insert>
+
+    <update id="updateComplaintById" parameterType="com.lee.community.pojo.Complaint">
+        update complaint
+        set complainter=#{complainter},
+        comPhone=#{comPhone},
+        comContent=#{comContent}
+        where complaintId = #{complaintId}
+    </update>
+
+    <update id="reviewComplaint" parameterType="com.lee.community.pojo.Complaint">
+        update complaint
+        set status=#{status},
+        result=#{result}
+        where complaintId = #{complaintId}
+    </update>
+
+</mapper>

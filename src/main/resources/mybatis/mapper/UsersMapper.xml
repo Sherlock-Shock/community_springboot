@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.UsersMapper">
+
+	
+	<select id="queryUsers" resultType="com.lee.community.pojo.Users"  >
+		select * from users
+	</select>
+
+	<select id="queryUserById" resultType="com.lee.community.pojo.Users" parameterType="String">
+		select * from users where userid= #{userid}
+	</select>
+
+	<select id="queryUserByName" resultType="com.lee.community.pojo.Users" parameterType="String">
+		select * from users where username= #{username}
+	</select>
+
+	<select id="checkUserIsExist" parameterType="String" resultType="int">
+		select count(1) from users where userId = #{userId}
+	</select>
+
+	<insert id="addUser" parameterType="com.lee.community.pojo.Users">
+		insert into users values (#{userid},#{username},#{password},#{userrole},#{photo},NOW())
+	</insert>
+
+	<update id="updatePassword" parameterType="com.lee.community.pojo.Users">
+		update users set password = #{password} where userid = #{userid}
+	</update>
+
+	<update id="updateUserIdByPhone" >
+		update users set userId = #{phone} where userId = #{userId}
+	</update>
+
+	<update id="updatePhotoById" parameterType="String">
+        update users
+        set photo = CONCAT(#{userid},'.jpg')
+        where userid = #{userid}
+    </update>
+
+	<update id="resetOwnerPassword" >
+		update users set password = #{password}
+		where userId = (select phone from owner where ownerId = #{ownerId})
+	</update>
+
+
+	<delete id="deleteUsers" parameterType="String">
+		delete from users where userId in
+		<foreach open="(" close=")" collection="array" item="userId" separator=",">
+		   #{userId}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

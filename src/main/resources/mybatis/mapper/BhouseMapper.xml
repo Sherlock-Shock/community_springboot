@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.BhouseMapper">
+
+
+    <select id="queryHouse" resultType="map" parameterType="com.lee.community.pojo.Bhouse"  >
+        select b.*,o.ownerName from bhouse b
+        left join owner o on b.ownerId = o.ownerId
+        <where>
+            <if test="bulidingNo!=null and bulidingNo !=''">
+                bulidingNo = #{bulidingNo}
+            </if>
+            <if test="unitNo!=null and unitNo !=''">
+                and unitNo = #{unitNo}
+            </if>
+            <if test="roomNo!=null and roomNo !=''">
+                and roomNo = #{roomNo}
+            </if>
+            <if test="houseStatus!=null and houseStatus !=''">
+                and houseStatus = #{houseStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="checkRoomNoIsExist" parameterType="com.lee.community.pojo.Bhouse" resultType="int">
+            select count(1) from bhouse
+            where bulidingNo=#{bulidingNo} and unitNo = #{unitNo} and roomNo = #{roomNo}
+    </select>
+
+    <select id="queryHouseAndOwner" resultType="map" parameterType="com.lee.community.pojo.Bhouse"  >
+        select h.houseId,h.bulidingNo,h.unitNo,h.roomNo,h.houseAreal,o.ownerId,o.ownerName,o.idCard from bhouse h,owner o
+        <where>
+            h.ownerId = o.ownerId
+            <if test="bulidingNo!=null and bulidingNo !=''">
+                and bulidingNo = #{bulidingNo}
+            </if>
+            <if test="unitNo!=null and unitNo !=''">
+                and unitNo = #{unitNo}
+            </if>
+            <if test="roomNo!=null and roomNo !=''">
+                and roomNo = #{roomNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOwnerAllHouse" parameterType="String" resultType="com.lee.community.pojo.Bhouse">
+        select * from bhouse where ownerId = #{ownerId}
+    </select>
+
+
+    <select id="queryHouseTotal" resultType="int">
+        select count(houseId) from bhouse
+    </select>
+
+    <select id="queryHousePie" resultType="map" >
+         SELECT
+         count(houseStatus = '已出售' OR NULL ) as sold,
+         count(houseStatus = '已出租' OR NULL ) as rent,
+         count(houseStatus = '闲置' OR NULL) as free
+        FROM bhouse;
+    </select>
+
+    <delete id="deleteHouses" parameterType="int">
+        delete from bhouse where houseId in
+        <foreach open="(" close=")" collection="array" item="houseId" separator=",">
+            #{houseId}
+        </foreach>
+    </delete>
+
+    <insert id="addHouse" parameterType="com.lee.community.pojo.Bhouse" >
+       insert into bhouse(houseStatus,houseAreal,bulidingNo,unitNo,roomNo,rate) values('闲置',#{houseAreal},#{bulidingNo},#{unitNo},#{roomNo},#{rate})
+    </insert>
+
+    <update id="updateHouseById" parameterType="com.lee.community.pojo.Bhouse">
+        update bhouse
+        set
+        houseStatus=#{houseStatus},
+        houseAreal=#{houseAreal},
+        bulidingNo=#{bulidingNo},
+        unitNo=#{unitNo},
+        roomNo=#{roomNo},
+        rate=#{rate}
+        where
+        houseId = #{houseId}
+    </update>
+    <update id="updateHouseOwnerById" parameterType="com.lee.community.pojo.Bhouse">
+        update bhouse
+        set
+        houseStatus='已出售',
+        ownerId = #{ownerId}
+        where
+        houseId = #{houseId}
+    </update>
+
+    <update id="updateHouseOwnerDrop" parameterType="String">
+        update bhouse
+        set
+        houseStatus='闲置',
+        ownerId = ''
+        where
+        houseId = #{houseId}
+    </update>
+
+</mapper>
