@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.BbuildingMapper">
+
+
+    <select id="queryAllBuilding" resultType="com.lee.community.pojo.Bbuilding"  >
+		select * from bbuilding
+	</select>
+
+	<select id="queryBuildingNo" resultType="int"  >
+		select bulidingNo from bbuilding order by bulidingNo
+	</select>
+
+	<select id="checkBuildingNoIsExist" parameterType="com.lee.community.pojo.Bbuilding" resultType="int">
+            select count(1) from bbuilding  where bulidingNo=#{bulidingno}
+    </select>
+
+	<select id="queryBuildingNoAndUnitNo" resultMap="buNo"  >
+		select b.bulidingId,b.bulidingNo,u.unitNo
+		from bbuilding b,bunit u
+		where b.bulidingId
+		= u.buildingId
+		order by b.bulidingNo,u.unitNo
+	</select>
+
+
+	<resultMap id="buNo" type="com.lee.community.pojo.Bbuilding">
+		<id column="bulidingId" jdbcType="INTEGER" property="bulidingid" />
+		<result column="bulidingNo" jdbcType="INTEGER" property="bulidingno"/>
+		<collection property="bunitList" ofType="com.lee.community.pojo.Bunit">
+			<id column="unitId" jdbcType="INTEGER" property="unitId" />
+			<result column="unitNo" jdbcType="VARCHAR" property="unitNo" />
+		</collection>
+	</resultMap>
+
+
+
+
+	<select id="queryAllBuildingByNo" resultType="com.lee.community.pojo.Bbuilding" parameterType="int" >
+		select * from bbuilding where bulidingNo = #{bulidingNo}
+	</select>
+
+	<insert id="addbuilding" parameterType="com.lee.community.pojo.Bbuilding">
+		insert into bbuilding(bulidingNo,bulidingName) values(#{bulidingno},#{bulidingname})
+	</insert>
+
+	<delete id="deleteBuildingById" parameterType="int">
+		delete from bbuilding where bulidingId = #{bulidingId}
+	</delete>
+
+	<delete id="deleteBuildings" parameterType="int">
+		delete from bbuilding where bulidingId in
+		<foreach open="(" close=")" collection="array" item="bulidingId" separator=",">
+			#{bulidingId}
+		</foreach>
+	</delete>
+
+	<update id="updateBuildingById" parameterType="com.lee.community.pojo.Bbuilding">
+		update bbuilding set bulidingNo=#{bulidingno},bulidingName=#{bulidingname} where bulidingId=#{bulidingid}
+	</update>
+
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ParkingAreaMapper">
+
+
+    <select id="queryParkingAreaByNo" resultType="com.lee.community.pojo.ParkingArea" parameterType="String"  >
+        select * from parkingarea
+        <where>
+            <if test="parkingAreaNo!=null and parkingAreaNo !=''">
+                and parkingAreaNo = #{parkingAreaNo}
+            </if>
+        </where>
+    </select>
+
+    <select id="checkParkingAreaNoIsExist" parameterType="com.lee.community.pojo.ParkingArea" resultType="int">
+            select count(1) from parkingarea  where parkingAreaNo=#{parkingAreaNo}
+        </select>
+
+    <delete id="deleteParkingAreas" parameterType="int">
+        delete from parkingarea where parkingAreaId in
+        <foreach open="(" close=")" collection="array" item="parkingAreaId" separator=",">
+            #{parkingAreaId}
+        </foreach>
+    </delete>
+
+    <update id="updateParkingAreaById" parameterType="com.lee.community.pojo.ParkingArea">
+        update parkingarea
+        set
+        parkingAreaNo = #{parkingAreaNo},
+        parkingType = #{parkingType},
+        parkAddress = #{parkAddress}
+        where
+        parkingAreaId = #{parkingAreaId}
+    </update>
+
+    <insert id="addParkingArea" parameterType="com.lee.community.pojo.ParkingArea">
+        insert into
+        parkingarea(parkingAreaNo,parkingType,parkAddress)
+        values (#{parkingAreaNo},#{parkingType},#{parkAddress})
+    </insert>
+    
+    <select id="queryParkingAreaId" resultType="int">
+        select parkingAreaId from parkingarea
+    </select>
+
+</mapper>

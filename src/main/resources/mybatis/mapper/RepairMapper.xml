@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.RepairMapper">
+    <select id="queryRepair"  resultType="map">
+        select r.*,o.ownerName,d.workerName from repair r
+        left join owner o on r.ownerId = o.ownerId
+        left join repaired d on r.repairNo = d.repairNo
+        <where>
+            <if test="ownerName!=null and ownerName !=''">
+                and o.ownerName like concat('%',#{ownerName},'%')
+            </if>
+            <if test="phone!=null and phone !=''">
+                and phone = #{phone}
+            </if>
+            <if test="status!=null and status !=''">
+                and status = #{status}
+            </if>
+        </where>
+        order by appTime asc
+    </select>
+
+    <select id="queryRepairDetail" parameterType="String" resultType="map">
+        select a.*,b.workerName,b.workerPhone,b.finishTime,b.mark
+        from repair a
+        left join repaired b on a.repairNo = b.repairNo
+        where a.repairNo = #{repairNo}
+        limit 1
+    </select>
+
+    <select id="queryRepairByOwnerId" parameterType="String" resultType="map">
+        select r.repairNo,r.roomNo,r.rtime,r.appTime,r.reason,r.phone,r.status,
+        b.workerName,b.workerPhone,b.finishTime,b.mark
+        from repair r
+        left join repaired b on r.repairNo = b.repairNo
+        where r.ownerId = #{ownerId}
+    </select>
+
+    <update id="updateRepairById" parameterType="com.lee.community.pojo.Repair">
+        update repair
+        set roomNo= #{roomNo},
+        reason= #{reason},
+        phone= #{phone},
+        appTime= #{appTime}
+        where repairNo = #{repairNo}
+    </update>
+    
+    <insert id="addRepair" parameterType="com.lee.community.pojo.Repair">
+        insert into repair(repairNo,ownerId,roomNo,rtime,appTime,reason,phone,status)
+        values (#{repairNo},#{ownerId},#{roomNo},#{rtime},#{appTime},#{reason},#{phone},#{status})
+    </insert>
+
+    <update id="updateStatusByNo">
+        update repair set status = #{status} where repairNo = #{repairNo}
+    </update>
+
+    <delete id="deleteRepairByNos" parameterType="String">
+        delete from repair where repairNo in
+        <foreach open="(" close=")" collection="array" item="repairNo" separator=",">
+            #{repairNo}
+        </foreach>
+    </delete>
+
+</mapper>

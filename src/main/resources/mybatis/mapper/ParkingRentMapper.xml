@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ParkingRentMapper">
+    <insert id="addParkingRent" parameterType="com.lee.community.pojo.ParkingRent">
+        insert into parkingrent (parkId,ownerId,beginTime,overTime)
+        values (#{parkId},#{ownerId},#{beginTime},#{overTime});
+    </insert>
+
+    <update id="deleteParkingRent" parameterType="String">
+        update parkingrent set delFlag = 0 where parkId = #{parkId}
+    </update>
+</mapper>

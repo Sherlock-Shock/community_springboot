@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.NoticeMapper">
+    <insert id="addNotice" parameterType="com.lee.community.pojo.Notice">
+        insert into notice(noticeId,title,content,publisher,publishTime)  values (#{noticeId},#{title},#{content},#{publisher},#{publishTime})
+    </insert>
+
+    <select id="queryNoticeByTitle" parameterType="String" resultType="com.lee.community.pojo.Notice">
+        select noticeId,title,publisher,publishTime from notice
+        <where>
+            <if test="title!=null and title !=''">
+                title like concat('%',#{title},'%')
+            </if>
+        </where>
+        order by publishTime desc
+    </select>
+
+    <select id="queryNoticeById" parameterType="String" resultType="com.lee.community.pojo.Notice">
+        select title,content,publisher,publishTime,views from notice where noticeId = #{noticeId}
+    </select>
+
+    <update id="updateViews" parameterType="String">
+        update notice set views = views+1 where noticeId = #{noticeId}
+    </update>
+
+    <delete id="deleteNotice" parameterType="String">
+        delete from notice where noticeId in
+        <foreach open="(" close=")" collection="array" item="noticeId" separator=",">
+            #{noticeId}
+        </foreach>
+    </delete>
+
+</mapper>

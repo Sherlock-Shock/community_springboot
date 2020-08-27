@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.OwnerMapper">
+
+
+    <select id="queryOwner" resultType="com.lee.community.pojo.Owner" parameterType="com.lee.community.pojo.Owner"  >
+        select * from owner
+        <where>
+            <if test="ownerName!=null and ownerName !=''">
+                ownerName = #{ownerName}
+            </if>
+            <if test="idCard!=null and idCard !=''">
+                and idCard = #{idCard}
+            </if>
+            <if test="phone!=null and phone !=''">
+                and phone = #{phone}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOwnerById" resultType="com.lee.community.pojo.Owner" parameterType="String"  >
+       select * from owner
+       where
+       ownerId = #{ownerId}
+    </select>
+
+    <select id="queryOwnerTotal" resultType="int" >
+        select count(ownerId) from owner
+    </select>
+
+    <select id="queryOwnerIdByPhone" resultType="String" parameterType="String">
+        select ownerId from owner where phone = #{phone} limit 1
+    </select>
+
+    <select id="queryOwnerMessageByPhone" resultType="com.lee.community.pojo.Owner" parameterType="String">
+        select * from owner where phone=#{phone} limit 1
+    </select>
+
+    <delete id="deleteOwners" parameterType="String">
+        delete from owner where ownerId in
+        <foreach open="(" close=")" collection="array" item="ownerId" separator=",">
+            #{ownerId}
+        </foreach>
+    </delete>
+
+    <insert id="addOwner" parameterType="com.lee.community.pojo.Owner" >
+       insert into
+       owner(ownerId,ownerName,sex,idCard,phone,createTime)
+       values(#{ownerId},#{ownerName},#{sex},#{idCard},#{phone},#{createTime})
+    </insert>
+
+    <update id="updateOwnerById" parameterType="com.lee.community.pojo.Owner">
+        update owner
+        set
+        ownerName=#{ownerName},
+        sex=#{sex},
+        idCard=#{idCard},
+        phone=#{phone},
+        address=#{address},
+        email=#{email}
+        where
+        ownerId = #{ownerId}
+    </update>
+
+
+    <update id="updatePhotoById" parameterType="String">
+        update owner
+        set photo = CONCAT(#{ownerId},'.jpg')
+        where ownerId = #{ownerId}
+    </update>
+</mapper>

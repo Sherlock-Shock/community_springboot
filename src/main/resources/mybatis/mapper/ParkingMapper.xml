@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.ParkingMapper">
+       <insert id="addParking" parameterType="com.lee.community.pojo.Parking" >
+           insert into
+           parking(parkingAreaId,parkingNo,parkStatus,parkingAreal)
+           values
+           (#{parkingAreaId},#{parkingNo},'空闲',#{parkingAreal})
+       </insert>
+
+        <select id="queryParkingByNo" parameterType="String" resultType="map">
+            SELECT p.*,o.ownerName,c.parkingAreaNo
+            FROM parking p
+            LEFT JOIN owner o on p.ownerId = o.ownerId
+            LEFT JOIN parkingarea c on p.parkingAreaId = c.parkingAreaId
+            <where>
+                <if test="parkingNo!=null and parkingNo !=''">
+                    parkingNo = #{parkingNo}
+                </if>
+            </where>
+        </select>
+
+    <select id="queryParkingPie" resultType="map" >
+         SELECT
+         count(parkStatus = '已出售' OR NULL ) as sold ,
+         count(parkStatus = '出租' OR NULL ) as rent,
+         count(parkStatus = '空闲' OR NULL) as free
+        FROM parking;
+    </select>
+
+        <select id="queryParkingFree" parameterType="String" resultType="com.lee.community.pojo.Parking">
+            select * from parking where parkingAreaId = #{parkingAreaId} and parkStatus = '空闲'
+        </select>
+
+        <select id="queryParkingTotal" resultType="int" >
+            select count(parkId) from parking
+        </select>
+
+        <select id="checkParkingNoIsExist" parameterType="com.lee.community.pojo.Parking" resultType="int">
+            select count(1) from parking  where parkingAreaId=#{parkingAreaId} and parkingNo=#{parkingNo}
+        </select>
+
+        <select id="queryOwnerAllParking" parameterType="String" resultType="map">
+            select p.*,r.parkingAreaNo,e.overTime from parking p
+            left join  parkingarea r on p.parkingAreaId = r.parkingAreaId
+            left join parkingrent e on p.parkId = e.parkId and e.delFlag = 1
+            where   p.ownerId = #{ownerId}
+        </select>
+
+        <delete id="deleteParkings" parameterType="int">
+            delete from parking where parkId in
+            <foreach open="(" close=")" collection="array" item="parkId" separator=",">
+                #{parkId}
+            </foreach>
+        </delete>
+
+    <update id="updateParkingById" parameterType="com.lee.community.pojo.Parking">
+        update parking
+        set
+        parkingNo = #{parkingNo},
+        parkStatus = #{parkStatus},
+        parkingAreal = #{parkingAreal}
+        where
+        parkId = #{parkId}
+    </update>
+
+    <update id="updateParkingOwnerDrop" parameterType="String">
+        update parking
+        set
+        parkStatus = '空闲',
+        ownerId = ''
+        where
+        parkId = #{parkId}
+    </update>
+
+    <select id="queryParkingAndOwner"  resultType="map">
+        SELECT p.*,o.ownerName,o.idCard,o.ownerId,c.parkingAreaNo
+        FROM parking p
+        LEFT JOIN owner o on p.ownerId = o.ownerId
+        LEFT JOIN parkingarea c on c.parkingAreaId = p.parkingAreaId
+        <where>
+            <if test="parkingNo!=null and parkingNo !=''">
+                p.parkingNo = #{parkingNo}
+            </if>
+            <if test="ownerName!=null and ownerName !=''">
+                and o.ownerName = #{ownerName}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateParkingOwnerBind" parameterType="com.lee.community.pojo.Parking">
+        update parking
+        set ownerId = #{ownerId},
+        parkStatus = #{parkStatus}
+        where parkId = #{parkId}
+    </update>
+
+</mapper>

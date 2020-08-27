@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.PayItemMapper">
+    <select id="queryPayItem" parameterType="com.lee.community.pojo.PayItem" resultType="com.lee.community.pojo.PayItem">
+        select * from payitem
+        <where>
+            <if test="payItemType!=null and payItemType !=''">
+                payItemType = #{payItemType}
+            </if>
+            <if test="payItemName!=null and payItemName !=''">
+                and payItemName like concat('%',#{payItemName},'%')
+            </if>
+            <if test="payItemPeriod!=null and payItemPeriod !=''">
+                and payItemPeriod = #{payItemPeriod}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addPayItem" parameterType="com.lee.community.pojo.PayItem">
+        insert into payitem
+        values
+        (#{payItemId},
+        #{payItemType},
+        #{payItemName},
+        #{payItemPeriod},
+        #{beginTime},
+        #{overTime},
+        #{charStandard},
+        #{charOnce});
+    </insert>
+
+    <delete id="deletePayItemByIds" parameterType="String">
+        delete from payitem where payItemId in
+        <foreach open="(" close=")" collection="array" item="payItemId" separator=",">
+            #{payItemId}
+        </foreach>
+    </delete>
+
+    <update id="updatePayItemById" parameterType="com.lee.community.pojo.PayItem">
+        update payitem
+        set
+         payItemType= #{payItemType},
+         payItemName= #{payItemName},
+         payItemPeriod= #{payItemPeriod},
+         beginTime= #{beginTime},
+         overTime= #{overTime},
+         charStandard= #{charStandard},
+         charOnce= #{charOnce}
+        where payItemId = #{payItemId}
+    </update>
+
+</mapper>

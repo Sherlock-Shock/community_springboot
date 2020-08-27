@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.PostCommentMapper">
+    <insert id="addComment" parameterType="com.lee.community.pojo.PostComment">
+        insert into postcomment (postId,userId,content,comTime,beCommentId)
+        values (#{postId},#{userId},#{content},#{comTime},#{beCommentId})
+    </insert>
+
+    <select id="queryAllCommentByPostId" resultType="com.lee.community.pojo.PostComment">
+        select c.*,u.userName,u.photo,u.userRole
+        from postcomment c
+        left join users u on u.userid = c.userid
+        <where>
+            c.postId = #{postId} and c.beCommentId = 0
+            <if test="rankType!=null and rankType !=''">
+                <if test="rankType=='stars'">
+                    order by starNum desc
+                </if>
+                <if test="rankType=='cTime'">
+                    order by comTime desc
+                </if>
+            </if>
+        </where>
+    </select>
+    <select id="queryBeComNum" parameterType="int" resultType="int">
+        select count(1) from postcomment where beCommentId = #{beCommentId}
+    </select>
+
+    <select id="queryPostCommentNum" resultType="int" parameterType="String">
+        select count(1) from postcomment where postId = #{postId}
+    </select>
+    <select id="queryInnerComment" resultType="com.lee.community.pojo.PostComment" parameterType="String">
+        select c.*,u.userName,u.photo,u.userRole
+        from postcomment c
+        left join users u on u.userid = c.userid
+        where beCommentId = #{commentId}
+    </select>
+
+    <update id="giveCommentStar" parameterType="int">
+        update postcomment set starNum = starNum+1 where commentId = #{commentId}
+    </update>
+
+</mapper>

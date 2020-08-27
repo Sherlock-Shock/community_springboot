@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace:该mapper.xml映射文件的 唯一标识 -->
+<mapper namespace="com.lee.community.mapper.BunitMapper">
+
+
+    <select id="queryBunitByNo" resultType="map" parameterType="int"  >
+		select unitId,buildingId,bulidingNo,unitNo,floor,lift from bunit,bbuilding
+		where
+		bunit.buildingId = bbuilding.bulidingId
+        <if test="unitNo!=null and unitNo !=''">
+            and unitNo = #{unitNo}
+        </if>
+	</select>
+
+    <select id="checkUnitNoIsExist" parameterType="com.lee.community.pojo.Bunit" resultType="int">
+            select count(1) from bunit  where buildingId=#{buildingId} and unitNo = #{unitNo}
+    </select>
+
+    <select id="queryUnitNo" resultType="int"  >
+		select unitNo from bunit order by unitNo
+	</select>
+
+    <delete id="deleteUnits" parameterType="int">
+        delete from bunit where unitId in
+        <foreach open="(" close=")" collection="array" item="unitId" separator=",">
+            #{unitId}
+        </foreach>
+    </delete>
+
+
+
+    <insert id="addUnit" parameterType="com.lee.community.pojo.Bunit" >
+       insert into bunit(buildingId,unitNo,floor,lift) values(#{buildingId},#{unitNo},#{floor},#{lift})
+    </insert>
+
+    <update id="updateUnitById" parameterType="com.lee.community.pojo.Bunit">
+        update bunit set unitNo=#{unitNo},floor=#{floor},lift=#{lift} where unitId = #{unitId}
+    </update>
+
+</mapper>
